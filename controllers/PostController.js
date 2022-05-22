@@ -1,16 +1,19 @@
-const { Post, User, Sequelize } = require("../models/index.js");
+const { Post, User, Hashtag, PostHashtag, Sequelize } = require("../models/index.js");
 const { Op } = Sequelize;
 const PostController = {
   create(req, res) {
     Post.create({ ...req.body })
-      .then((post) =>
+      .then((post) =>{    
+        post.addHashtag(req.body.HashtagId)
         res.status(201).send({ message: "Publicación creada con éxito", post })
-      )
+      })
       .catch(console.error);
   },
   getAll(req, res) {
     Post.findAll({
-      include: [User.name],
+      include: [
+        {model: Hashtag, through: {attributes: []}}, User
+      ]
     })
       .then((posts) => res.send(posts))
       .catch((err) => {
@@ -50,13 +53,43 @@ const PostController = {
       });
   },
   async delete(req, res) {
-    await Post.destroy({
-      where: {
-        id: req.params.id,
-      },
-    });
-    res.send("La publicación ha sido eliminada con éxito");
+    try {
+      await Post.destroy({
+        where: {
+          id: req.params.id,
+        },
+      });
+      await PostHashtag.destroy({
+        where: {
+            PostId: req.params.id
+        }
+    })
+      res.send("La publicación ha sido eliminada con éxito");
+    } catch (error) {
+      console.log(error)
+    }
   },
+  async update(req, res) {
+    try {
+      await Post.update(
+        { ...req.body },
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
+      );
+      const post = await Post.findByPk(req.params.id)
+      post.setHashtags(req.body.HashtagId);
+      res.send("Post actualizado con éxito");
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "No ha sido posible actualizado el post" });
+    }
+  },
+
 };
 
 module.exports = PostController;
