@@ -5,14 +5,17 @@ const jwt = require('jsonwebtoken');
 const { jwt_secret } = require('../config/config.json')['development']
 
 const UserController = {
-  create(req, res) {
+  create(req, res, next) {
     req.body.role = "user";
     const hash = bcrypt.hashSync(req.body.password, 10)
     User.create({ ...req.body, password:hash })
       .then((user) =>
         res.status(201).send({ message: "Usuario creado con éxito", user })
       )
-      .catch(console.error);
+      .catch(error => {
+        error.origin = 'User'
+        next(error)
+      });
   },
   login(req,res){
     User.findOne({

@@ -1,13 +1,16 @@
 const { Post, User, Hashtag, PostHashtag, Sequelize } = require("../models/index.js");
 const { Op } = Sequelize;
 const PostController = {
-  create(req, res) {
+  create(req, res, next) {
     Post.create({ ...req.body })
       .then((post) =>{    
         post.addHashtag(req.body.HashtagId)
         res.status(201).send({ message: "Publicación creada con éxito", post })
       })
-      .catch(console.error);
+      .catch(error => {
+        error.origin = 'Post'
+        next(error)
+      });
   },
   getAll(req, res) {
     Post.findAll({

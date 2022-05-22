@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Post.belongsTo(models.User);
-      Post.belongsToMany(models.Hashtag, {through: models.PostHashtag}, {onDelete: 'cascade'})
+      Post.belongsToMany(models.Hashtag, {through: models.PostHashtag})
     }
   }
   Post.init({
