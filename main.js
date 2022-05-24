@@ -1,8 +1,9 @@
 const express = require("express");
-const { typeError }= require('./middlewares/errors');
 const app = express();
 
 const port = 8080;
+
+const { typeError } = require('./middlewares/errors');
 
 app.use(express.json())
 

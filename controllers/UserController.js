@@ -13,6 +13,13 @@ const UserController = {
         res.status(201).send({ message: "Usuario creado con éxito", user })
       )
       .catch(error => {
+        // console.log(error.errors[0].message);
+
+        // if(error.errors?.length > 0){
+        //     res.status(400).send({ msg: error?.errors?.[0]?.message })
+        // }
+        // res.status(500).send({message:"Ha habido un problema al crear el usuario"})
+
         error.origin = 'User'
         next(error)
       });

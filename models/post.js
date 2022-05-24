@@ -15,7 +15,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Post.init({
-    title: DataTypes.STRING,
+    title:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Por favor introduce un titulo",
+        },
+      },
+    },
     body: DataTypes.STRING,
     UserId: DataTypes.INTEGER
   }, {

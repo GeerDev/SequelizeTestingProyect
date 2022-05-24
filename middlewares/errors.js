@@ -12,10 +12,9 @@ const handleValidationError = (err, res) => {
     }
  }
 
-const typeError = (err, req, res) => {
-    console.log(err.name);
+const typeError = (err, req, res, next) => {
     const errOrigin = err.origin
-    if(err.name === 'SequelizeValidationError'){
+    if(err.name === 'SequelizeValidationError' || err.name === 'SequelizeUniqueConstraintError'){
         return err = handleValidationError(err, res);
     } else
         if (errOrigin === 'Post') {
