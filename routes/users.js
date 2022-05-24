@@ -5,6 +5,7 @@ const { authentication, isAdmin } = require('../middlewares/authentication')
 
 router.post("/", UserController.create);
 router.post('/login', UserController.login);
+router.get('/confirm/:emailToken',UserController.confirm)
 router.get("/", authentication, UserController.getAll);
 router.put('/id/:id', authentication, UserController.update)
 router.delete("/delete/:id", authentication, isAdmin, UserController.delete);

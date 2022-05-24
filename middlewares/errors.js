@@ -15,7 +15,7 @@ const handleValidationError = (err, res) => {
 const typeError = (err, req, res, next) => {
     const errOrigin = err.origin
     if(err.name === 'SequelizeValidationError' || err.name === 'SequelizeUniqueConstraintError'){
-        return err = handleValidationError(err, res);
+        return resultadoError = handleValidationError(err, res);
     } else
         if (errOrigin === 'Post') {
             res.status(500).send('Hubo un problema a la hora de crear un Post');
