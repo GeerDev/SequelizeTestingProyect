@@ -60,7 +60,7 @@ const UserController = {
         }
         token = jwt.sign({id: user.id}, jwt_secret);
         Token.create({ token, UserId: user.id })
-        res.send({message: 'Holi' + user.name, user, token})
+        res.send({message: 'Holi ' + user.name, user, token})
     })
 },
   getAll(req, res) {
