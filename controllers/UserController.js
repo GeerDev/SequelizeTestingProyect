@@ -12,19 +12,19 @@ const UserController = {
       const user = await User.create({
         ...req.body,
         confirmed: false,
-        password:hash,
+        // password:hash,
         role: "user",
       });
-      const emailToken = jwt.sign({email:req.body.email},jwt_secret,{expiresIn:'48h'})
-      const url = 'http://localhost:8080/users/confirm/'+ emailToken;
-      await transporter.sendMail({
-        to: req.body.email,
-        subject: "Confirme su registro",
-        html: `<h3>Bienvenido, estás a un paso de registrarte </h3>
-        <a href="${url}"> Click para confirmar tu registro</a>
-        Este enlace caduda en 48h.
-        `,
-      });
+      // const emailToken = jwt.sign({email:req.body.email},jwt_secret,{expiresIn:'48h'})
+      // const url = 'http://localhost:8080/users/confirm/'+ emailToken;
+      // await transporter.sendMail({
+      //   to: req.body.email,
+      //   subject: "Confirme su registro",
+      //   html: `<h3>Bienvenido, estás a un paso de registrarte </h3>
+      //   <a href="${url}"> Click para confirmar tu registro</a>
+      //   Este enlace caduda en 48h.
+      //   `,
+      // });
       res.status(201).send({
         message: "Te hemos enviado un correo para confirmar el registro",
         user,
