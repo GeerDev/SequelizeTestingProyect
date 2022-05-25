@@ -72,4 +72,14 @@ describe("POST testing/users", () => {
         done();
       });
   });
+  it("Logout a user record", (done) => {
+    request(app)
+      .delete("/users/logout")
+      .set({ Authorization: token })
+      .expect(200)
+      .end((err, res) => {
+        expect(res.body.message).toEqual("Desconectado con éxito");
+        done();
+      });
+  });
 });
