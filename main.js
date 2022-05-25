@@ -12,5 +12,6 @@ app.use('/posts',require('./routes/posts'))
 app.use('/hashtags',require('./routes/hashtags'))
 
 app.use(typeError)
-
 app.listen(port, () => console.log("Server running in port " + port));
+
+module.exports = app;

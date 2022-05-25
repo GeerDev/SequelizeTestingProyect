@@ -8,11 +8,11 @@ const transporter = require("../config/nodemailer");
 const UserController = {
   async create(req, res, next) {
     try {
-      const hash = bcrypt.hashSync(req.body.password, 10);
+      // const hash = bcrypt.hashSync(req.body.password, 10);
       const user = await User.create({
         ...req.body,
-        password: hash,
         confirmed: false,
+        password:hash,
         role: "user",
       });
       const emailToken = jwt.sign({email:req.body.email},jwt_secret,{expiresIn:'48h'})
@@ -54,10 +54,10 @@ const UserController = {
         if(!user.confirmed){
             return res.status(400).send({message:"Debes de confirmar tu correo"})
         }
-        const isMatch = bcrypt.compareSync(req.body.password, user.password);
-        if(!isMatch){
-            return res.status(400).send({message:"Usuario o contraseña incorrectos"})
-        }
+        // const isMatch = bcrypt.compareSync(req.body.password, user.password);
+        // if(!isMatch){
+        //     return res.status(400).send({message:"Usuario o contraseña incorrectos"})
+        // }
         token = jwt.sign({id: user.id}, jwt_secret);
         Token.create({ token, UserId: user.id })
         res.send({message: 'Holi ' + user.name, user, token})
