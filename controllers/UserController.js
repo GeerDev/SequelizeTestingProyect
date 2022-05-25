@@ -67,7 +67,7 @@ const UserController = {
     User.findAll({
       include: [Post],
     })
-      .then((users) => res.send(users))
+      .then((users) => res.status(200).send(users))
       .catch((err) => {
         console.log(err);
         res.status(500).send({

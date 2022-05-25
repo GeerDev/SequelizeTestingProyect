@@ -1,10 +1,11 @@
 const request = require('supertest');
+const express = require('express');
 
-request(app)
-  .get('/users')
-  .expect('Content-Type', /json/)
-  .expect('Content-Length', '15')
-  .expect(200)
-  .end(function(err, res) {
-    if (err) throw err;
+const app = express();
+
+describe("GET /users", () => {
+  test("should respond with a 200 status code", () => {
+    request(app).get("/users").expect(200)
   });
+})
+
